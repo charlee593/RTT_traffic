@@ -1,4 +1,4 @@
-f = open("top_canada_site.txt","r+")
+f = open("top_sites/london_top_site.txt","r+")
 lines = f.readlines()
 f.seek(0)
 count = 0

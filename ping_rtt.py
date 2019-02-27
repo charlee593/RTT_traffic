@@ -18,7 +18,7 @@ data["time"] = []
 data["site"] = []
 data["location"] = []
 
-f = open("top_canada_site.txt", "r")
+f = open("canada_top_site.txt", "r")
 for x in f:
     top_site.append(x.strip('\n'))
 
