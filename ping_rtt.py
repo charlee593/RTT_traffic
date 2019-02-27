@@ -44,7 +44,6 @@ data["time"].append(datetime.datetime.now())
 data["site"].append(re.match(r"PING (.*) \(.*", str_list[0], re.M|re.I).group(1))
 
 print(str_list)
-print ""
 print data
 print datetime.datetime.now()
 print(top_site)
