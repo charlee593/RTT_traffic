@@ -2,11 +2,9 @@ import subprocess
 import re
 import datetime
 import csv
-import socket
 
 top_site = []
 data = {}
-keys = {}
 public_ip = {}
 raw = []
 data["min"] = []
@@ -18,7 +16,7 @@ data["ip"] = []
 data["bytes_of_data"] = []
 data["time"] = []
 data["site"] = []
-hostname = socket.gethostname()
+data["location"] = []
 
 f = open("top_canada_site.txt", "r")
 for x in f:
@@ -31,9 +29,10 @@ for x in f:
 
 for location in ["canada", "west", "east", "tokyo", "london"]:
     for site in top_site:
-        args = ["ssh", "-i", keys[location], public_ip[location], "ping", "-c", "2", site]
-        if location == "canada":
-            args = ["ping", "-c", "2", site]
+        args = ["ping", "-c", "2", site]
+        if location != "canada":
+            args = ["ssh", "-i", "keys/" + location + ".pem", public_ip[location], "-oStrictHostKeyChecking=no",
+                    "ping", "-c", "2", site]
 
         p = subprocess.Popen(args, stdout=subprocess.PIPE)
 
@@ -50,12 +49,16 @@ for location in ["canada", "west", "east", "tokyo", "london"]:
         data["bytes_of_data"].append(re.match(r".*\) ([0-9]*)\(84\) bytes of data", str_list[0], re.M|re.I).group(1))
         data["time"].append(datetime.datetime.now())
         data["site"].append(re.match(r"PING (.*) \(.*", str_list[0], re.M|re.I).group(1))
+        data["location"].append(location)
 
-        with open(hostname + '_dict.csv', 'w') as csv_file:
+        with open("data/"+location + '_dict.csv', 'w') as csv_file:
+            writer = csv.writer(csv_file)
+            for key, value in data.items():
+                writer.writerow([key, value])
+        with open("data/"+'all_dict.csv', 'w') as csv_file:
             writer = csv.writer(csv_file)
             for key, value in data.items():
                 writer.writerow([key, value])
 
-        print hostname
-print(data['time'][0])
+print(data)
 

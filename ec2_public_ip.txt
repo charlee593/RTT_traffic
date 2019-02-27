@@ -1,4 +1,4 @@
-east ec2-3-80-190-126.compute-1.amazonaws.com
-west ec2-34-222-129-203.us-west-2.compute.amazonaws.com
-tokyo ec2-54-95-40-112.ap-northeast-1.compute.amazonaws.com
-london ec2-52-56-150-234.eu-west-2.compute.amazonaws.com
+east ubuntu@ec2-3-80-190-126.compute-1.amazonaws.com
+west ubuntu@ec2-34-222-129-203.us-west-2.compute.amazonaws.com
+tokyo ubuntu@ec2-54-95-40-112.ap-northeast-1.compute.amazonaws.com
+london ubuntu@ec2-52-56-150-234.eu-west-2.compute.amazonaws.com
