@@ -32,7 +32,7 @@ for x in f:
     public_ip[x[0]] = x[1]
 
 for num_time in range(8):
-    for location in ["canada", "west", "east", "tokyo", "london"]:
+    for location in ["tokyo", "canada", "west", "east",  "london"]:
         for site in top_site[location]:
             print "Pinging:", num_time, " location:", location, " site:", site, " time:", datetime.datetime.now()
             args = ["ping", "-c", "2", site]
@@ -46,7 +46,7 @@ for num_time in range(8):
             str_list = filter(None, strs)
             raw.append(str_list)
 
-            if len(str_list) > 3:
+            try:
                 data["min"].append(str_list[-1][23:].split('/')[0])
                 data["avg"].append(str_list[-1][23:].split('/')[1])
                 data["max"].append(str_list[-1][23:].split('/')[2])
@@ -57,8 +57,9 @@ for num_time in range(8):
                 data["time"].append(datetime.datetime.now())
                 data["site"].append(re.match(r"PING (.*) \(.*", str_list[0], re.M|re.I).group(1))
                 data["location"].append(location)
-            else:
-                data["cannot_ping"].append(re.match(r"PING (.*) \(.*", str_list[0], re.M|re.I).group(1))
+            except:
+                print "Cannot ping:", site
+                data["cannot_ping"].append(site)
 
             with open("data/"+location + '_dict.csv', 'w') as csv_file:
                 writer = csv.writer(csv_file)
@@ -68,6 +69,7 @@ for num_time in range(8):
                 writer = csv.writer(csv_file)
                 for key, value in data.items():
                     writer.writerow([key, value])
-    time.sleep(180)
+    print "Wait for 3 hrs", datetime.datetime.now()
+    time.sleep(60*60*3)
 
 
